@@ -17,7 +17,11 @@ jobs:
 
       - name: Validate branch name
         run: |
-          branch_name="${{ github.ref#refs/heads/ }}"
+          # Extrai o nome da branch da referência GitHub
+          branch_name="${{ github.ref }}"
+          branch_name=${branch_name#refs/heads/}
+          
+          # Valida o nome da branch
           if [[ ! $branch_name =~ ^(feat|release|docs|perf|style|test|bugfix|hotfix)\/.+$ ]]; then
             echo "Erro: O nome da branch deve seguir o padrão <tipo>/<descricao>."
             exit 1
